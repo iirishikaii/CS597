@@ -424,8 +424,8 @@ def adv_test(orig_img = 0, target_img = 1, C = 200.0, plot = True):
         plt.title(title)
         plt.axis("off")
 
-        output_dir = '/Users/rishikaagarwal/Desktop/cs597/adv_vae-master/results/' + model_filename +'/'
-    
+        #output_dir = '/Users/rishikaagarwal/Desktop/cs597/adv_vae-master/results/' + model_filename +'/'
+        output_dir = 'results/' + model_filename +'/'
         fig.savefig(os.path.join(output_dir, ('after_attack_' + str(now())+ '.png')))
         plt.close(fig)
         #show_mnist(adv_img, 6, "Adversarial reconstruction")
@@ -513,7 +513,8 @@ def orig_adv_dist(orig_img = None, target_img = None, plot = False, bestC = None
         plt.xlabel("Adversarial - Original")
         plt.legend()
         plt.plot()
-        output_dir = '/Users/rishikaagarwal/Desktop/cs597/adv_vae-master/results/' + model_filename + '/'
+        #output_dir = '/Users/rishikaagarwal/Desktop/cs597/adv_vae-master/results/' + model_filename + '/'
+        output_dir = 'results/' + model_filename + '/'
         #os.path.join(output_dir, {}/exp_'+ str(iteration)+ '.png')
         fig.savefig(os.path.join(output_dir, ('exp_'+ str(iteration)+ 'graph1.png')))
         plt.close(fig)
