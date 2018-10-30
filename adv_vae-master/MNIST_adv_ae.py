@@ -585,7 +585,7 @@ def orig_adv_dist(orig_img = None, target_img = None, plot = False, bestC = None
 # In[49]:
 
 
-n = 4
+n = 10
 
 for i in range(n):
     start_time = time.time()
@@ -684,9 +684,9 @@ def gen_adv_ex_set(N):
 
 
 def append_adv_ex():
-    N = 40
+    N = 5000
     a_x, a_y = gen_adv_ex_set(N)
-    M = 1500
+    M = 10000
     print(np.shape(a_x))
     print(np.shape(train_x))
     train_x_app = np.concatenate((train_x[0:M], a_x), axis = 0)
@@ -898,7 +898,7 @@ print("############################################################")
 print("############################################################")
 print()
 
-n = 4
+n = 10
 
 for i in range(n):
     start_time = time.time()
