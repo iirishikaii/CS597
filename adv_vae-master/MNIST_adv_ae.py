@@ -50,12 +50,15 @@ matplotlib.use('Agg')
 from mpl_toolkits.mplot3d import Axes3D
 import pylab as plt
 from read_write_model import read_model, write_model
+from time import mktime, gmtime
 
 theano.config.floatX = 'float32'
 
 
 # In[5]:
 
+def now():
+    return mktime(gmtime())
 
 #settings
 do_train_model = False #False
@@ -348,7 +351,7 @@ def adv_test(orig_img = 0, target_img = 1, C = 200.0, plot = True):
     #recon_dist = mnist_dist(adv_img, test_x_app[orig_img]+x)
     
     # Plotting results
-    '''
+    
     if plot:
         
         fig = plt.figure(figsize=(10,10))
@@ -423,12 +426,12 @@ def adv_test(orig_img = 0, target_img = 1, C = 200.0, plot = True):
 
         output_dir = '/Users/rishikaagarwal/Desktop/cs597/adv_vae-master/results/' + model_filename +'/'
     
-        fig.savefig(os.path.join(output_dir, ('after_attack.png')))
+        fig.savefig(os.path.join(output_dir, ('after_attack_' + str(now())+ '.png')))
         plt.close(fig)
         #show_mnist(adv_img, 6, "Adversarial reconstruction")
     
         #plt.show()
-      '''
+    
     orig_target_dist = np.linalg.norm(test_x[orig_img] - test_x[target_img])
     #orig_target_dist = np.linalg.norm(test_x_app[orig_img] - test_x_app[target_img])
     returns = (np.linalg.norm(x),
@@ -470,7 +473,7 @@ def orig_adv_dist(orig_img = None, target_img = None, plot = False, bestC = None
     orig_target_recon_dist=[]
     target_orig_recon_dist=[]
     
-    C = np.logspace(-20, 20, 100, base = 2, dtype = np.float32)
+    C = np.logspace(-15, 15, 50, base = 2, dtype = np.float32)
     
     for c in C:
         noise, od, ad, ore, tre, recd, otd, otrd, tord = adv_test(orig_img, target_img, C=c, plot = False)
@@ -495,9 +498,10 @@ def orig_adv_dist(orig_img = None, target_img = None, plot = False, bestC = None
     if bestC is None:
         bestC = C[np.argmax(adv_dist - orig_dist >= 0)-1]
 
-    print (orig_img, target_img, bestC)
+    #print (orig_img, target_img, bestC)
 
-    best_noise, best_orig_dist, best_adv_dist, orig_reconstruction_dist, target_reconstruction_dist, _, _, _, _ = adv_test(orig_img, target_img, C=bestC, plot = plot)
+    best_noise, best_orig_dist, best_adv_dist, orig_reconstruction_dist, target_reconstruction_dist, _, _, _, _ = adv_test(orig_img, target_img, C=bestC, plot = True)
+
     plt.ioff()
     if plot:
         fig = plt.figure()
@@ -580,7 +584,7 @@ def orig_adv_dist(orig_img = None, target_img = None, plot = False, bestC = None
 # In[49]:
 
 
-n = 10
+n = 4
 
 for i in range(n):
     start_time = time.time()
@@ -681,7 +685,7 @@ def gen_adv_ex_set(N):
 def append_adv_ex():
     N = 40
     a_x, a_y = gen_adv_ex_set(N)
-    M = 15000
+    M = 1500
     print(np.shape(a_x))
     print(np.shape(train_x))
     train_x_app = np.concatenate((train_x[0:M], a_x), axis = 0)
@@ -829,6 +833,7 @@ def test_epoch():
 
 if do_train_model:
     # Training Loop
+    print("Training Adversarial Model")
     for epoch in range(num_epochs):
         start = time.time()
 
@@ -892,7 +897,7 @@ print("############################################################")
 print("############################################################")
 print()
 
-n = 10
+n = 4
 
 for i in range(n):
     start_time = time.time()
