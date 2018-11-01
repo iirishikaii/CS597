@@ -473,7 +473,7 @@ def orig_adv_dist(orig_img = None, target_img = None, plot = False, bestC = None
     orig_target_recon_dist=[]
     target_orig_recon_dist=[]
     
-    C = np.logspace(-15, 15, 50, base = 2, dtype = np.float32)
+    C = np.logspace(-20, 20, 50, base = 2, dtype = np.float32)
     
     for c in C:
         noise, od, ad, ore, tre, recd, otd, otrd, tord = adv_test(orig_img, target_img, C=c, plot = False)
@@ -553,7 +553,7 @@ def orig_adv_dist(orig_img = None, target_img = None, plot = False, bestC = None
     print('best orig_target_dist', orig_target_dist[bestCind])
     print('best orig_target_recon_dist', orig_target_recon_dist[bestCind])
     print('best target_orig_recon_dist', target_orig_recon_dist[bestCind])
-    print("############################################################")
+   
     #print('C', np.mean(C))
                         
                         
@@ -591,6 +591,7 @@ for i in range(n):
     start_time = time.time()
     df = orig_adv_dist(plot = True, iteration = i)
     print ("Iter", i, "Time", time.time() - start_time, "sec")
+    print("############################################################")
     #print(df.values)
     #f = "results/" + model_filename + "/exp_" + str(i) + ".txt"
     #np.savetxt(f, df.values, fmt = "%d")
@@ -684,9 +685,9 @@ def gen_adv_ex_set(N):
 
 
 def append_adv_ex():
-    N = 5000
+    N = 10000
     a_x, a_y = gen_adv_ex_set(N)
-    M = 10000
+    M = 40000
     print(np.shape(a_x))
     print(np.shape(train_x))
     train_x_app = np.concatenate((train_x[0:M], a_x), axis = 0)
